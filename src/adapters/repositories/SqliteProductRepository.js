@@ -57,4 +57,19 @@ export class SqliteProductRepository extends ProductRepository {
                 })
         );
     }
+
+    async update(product) {
+        const stmt = this.db.prepare(
+            'UPDATE products SET name = ?, description = ?, price = ? WHERE id = ? RETURNING id, name, description, price, createdAt'
+        );
+        const row = stmt.get(product.name, product.description, product.price, product.id);
+        if (!row) return null;
+        return new Product({
+            id: row.id,
+            name: row.name,
+            description: row.description,
+            price: row.price,
+            createdAt: row.createdAt,
+        });
+    }
 }

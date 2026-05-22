@@ -3,11 +3,9 @@ import express from 'express';
 export function createRouter(productController) {
     const router = express.Router();
 
-    // Rutas para productos
     router.get('/products', productController.listProducts);
     router.post('/products', productController.createProduct);
-
-    // Rutas para reseñas asociadas a un producto
+    router.put('/products/:id', productController.updateProduct);
     router.post('/products/:productId/reviews', productController.createReview);
 
     return router;

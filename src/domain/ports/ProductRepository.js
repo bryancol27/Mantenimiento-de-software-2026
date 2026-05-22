@@ -10,4 +10,8 @@ export class ProductRepository {
     async findAll() {
         throw new Error('Método "findAll" no implementado');
     }
+
+    async update(_product) {
+        throw new Error('Método "update" no implementado');
+    }
 }
