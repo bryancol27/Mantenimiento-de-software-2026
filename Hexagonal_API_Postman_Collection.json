@@ -56,6 +56,26 @@
                         }
                     },
                     "response": []
+                },
+                {
+                    "name": "Get Product Details",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/api/products/:id",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "products", ":id"],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "ID del producto a consultar"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
                 }
             ]
         },

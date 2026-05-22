@@ -1,8 +1,14 @@
 export class ProductController {
-    constructor({ listProductsUseCase, createProductUseCase, createReviewUseCase }) {
+    constructor({
+        listProductsUseCase,
+        createProductUseCase,
+        createReviewUseCase,
+        getProductDetailsUseCase,
+    }) {
         this.listProductsUseCase = listProductsUseCase;
         this.createProductUseCase = createProductUseCase;
         this.createReviewUseCase = createReviewUseCase;
+        this.getProductDetailsUseCase = getProductDetailsUseCase;
     }
 
     listProducts = async (req, res, _next) => {
@@ -40,6 +46,22 @@ export class ProductController {
             res.status(201).json(newReview);
         } catch (error) {
             res.status(400).json({ error: error.message });
+        }
+    };
+
+    getProductDetails = async (req, res, _next) => {
+        try {
+            const { id } = req.params;
+            const product = await this.getProductDetailsUseCase.execute({
+                id: Number(id),
+            });
+            res.json(product);
+        } catch (error) {
+            if (error.message.includes('no existe')) {
+                res.status(404).json({ error: error.message });
+            } else {
+                res.status(400).json({ error: error.message });
+            }
         }
     };
 }

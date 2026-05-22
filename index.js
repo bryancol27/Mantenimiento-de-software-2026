@@ -4,6 +4,7 @@ import { SqliteReviewRepository } from './src/adapters/repositories/SqliteReview
 import { ListProducts } from './src/application/use-cases/ListProducts.js';
 import { CreateProduct } from './src/application/use-cases/CreateProduct.js';
 import { CreateReview } from './src/application/use-cases/CreateReview.js';
+import { GetProductDetails } from './src/application/use-cases/GetProductDetails.js';
 import { ProductController } from './src/adapters/controllers/ProductController.js';
 import { createRouter } from './src/infrastructure/web/routes.js';
 import { createExpressApp } from './src/infrastructure/web/express.js';
@@ -23,12 +24,14 @@ try {
     const listProductsUseCase = new ListProducts(productRepository, reviewRepository);
     const createProductUseCase = new CreateProduct(productRepository);
     const createReviewUseCase = new CreateReview(reviewRepository, productRepository);
+    const getProductDetailsUseCase = new GetProductDetails(productRepository, reviewRepository);
 
     // 4. Inicializar Adaptador Primario (Controlador) con Inyección de Dependencias
     const productController = new ProductController({
         listProductsUseCase,
         createProductUseCase,
         createReviewUseCase,
+        getProductDetailsUseCase,
     });
 
     // 5. Inicializar Capa de Infraestructura Web (Express y Rutas)
