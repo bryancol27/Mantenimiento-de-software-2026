@@ -29,6 +29,20 @@ export class InMemoryProductRepository extends ProductRepository {
         if (limit !== undefined) list = list.slice(offset ?? 0, (offset ?? 0) + limit);
         return { products: list, total };
     }
+
+    async update(product) {
+        const index = this.products.findIndex((p) => p.id === product.id);
+        if (index === -1) return null;
+        const updated = {
+            id: product.id,
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            createdAt: product.createdAt,
+        };
+        this.products[index] = updated;
+        return updated;
+    }
 }
 
 export class InMemoryReviewRepository extends ReviewRepository {

@@ -1,9 +1,15 @@
 const toNumber = (value) => (value !== undefined ? Number(value) : undefined);
 
 export class ProductController {
-    constructor({ listProductsUseCase, createProductUseCase, createReviewUseCase }) {
+    constructor({
+        listProductsUseCase,
+        createProductUseCase,
+        updateProductUseCase,
+        createReviewUseCase,
+    }) {
         this.listProductsUseCase = listProductsUseCase;
         this.createProductUseCase = createProductUseCase;
+        this.updateProductUseCase = updateProductUseCase;
         this.createReviewUseCase = createReviewUseCase;
     }
 
@@ -32,6 +38,25 @@ export class ProductController {
             });
             res.status(201).json(newProduct);
         } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    };
+
+    updateProduct = async (req, res, _next) => {
+        try {
+            const { id } = req.params;
+            const { name, description, price } = req.body;
+            const updatedProduct = await this.updateProductUseCase.execute(Number(id), {
+                name,
+                description,
+                price: price !== undefined ? Number(price) : undefined,
+            });
+            res.status(200).json(updatedProduct);
+        } catch (error) {
+            if (error.message === 'Producto no encontrado.') {
+                res.status(404).json({ error: error.message });
+                return;
+            }
             res.status(400).json({ error: error.message });
         }
     };
