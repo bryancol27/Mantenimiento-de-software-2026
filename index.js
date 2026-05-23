@@ -3,6 +3,7 @@ import { SqliteProductRepository } from './src/adapters/repositories/SqliteProdu
 import { SqliteReviewRepository } from './src/adapters/repositories/SqliteReviewRepository.js';
 import { ListProducts } from './src/application/use-cases/ListProducts.js';
 import { CreateProduct } from './src/application/use-cases/CreateProduct.js';
+import { UpdateProduct } from './src/application/use-cases/UpdateProduct.js';
 import { CreateReview } from './src/application/use-cases/CreateReview.js';
 import { GetProductDetails } from './src/application/use-cases/GetProductDetails.js';
 import { ProductController } from './src/adapters/controllers/ProductController.js';
@@ -23,6 +24,7 @@ try {
     // 3. Inicializar Casos de Uso
     const listProductsUseCase = new ListProducts(productRepository, reviewRepository);
     const createProductUseCase = new CreateProduct(productRepository);
+    const updateProductUseCase = new UpdateProduct(productRepository);
     const createReviewUseCase = new CreateReview(reviewRepository, productRepository);
     const getProductDetailsUseCase = new GetProductDetails(productRepository, reviewRepository);
 
@@ -30,6 +32,7 @@ try {
     const productController = new ProductController({
         listProductsUseCase,
         createProductUseCase,
+        updateProductUseCase,
         createReviewUseCase,
         getProductDetailsUseCase,
     });
