@@ -7,7 +7,7 @@ export class ProductRepository {
         throw new Error('Método "findById" no implementado');
     }
 
-    async findAll() {
+    async findAll(_criteria = {}) {
         throw new Error('Método "findAll" no implementado');
     }
 }

@@ -1,3 +1,5 @@
+const toNumber = (value) => (value !== undefined ? Number(value) : undefined);
+
 export class ProductController {
     constructor({ listProductsUseCase, createProductUseCase, createReviewUseCase }) {
         this.listProductsUseCase = listProductsUseCase;
@@ -7,8 +9,14 @@ export class ProductController {
 
     listProducts = async (req, res, _next) => {
         try {
-            const products = await this.listProductsUseCase.execute();
-            res.json(products);
+            const { minPrice, maxPrice, limit, page } = req.query;
+            const result = await this.listProductsUseCase.execute({
+                minPrice: toNumber(minPrice),
+                maxPrice: toNumber(maxPrice),
+                limit: toNumber(limit),
+                page: toNumber(page),
+            });
+            res.json(result);
         } catch (error) {
             _next(error);
         }
