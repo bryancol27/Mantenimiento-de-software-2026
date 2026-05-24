@@ -14,4 +14,8 @@ export class ProductRepository {
     async update(_product) {
         throw new Error('Método "update" no implementado');
     }
+    
+    async delete(_id) {
+        throw new Error('Método "delete" no implementado');
+    }
 }

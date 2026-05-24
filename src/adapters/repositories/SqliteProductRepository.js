@@ -72,4 +72,9 @@ export class SqliteProductRepository extends ProductRepository {
             createdAt: row.createdAt,
         });
     }
+
+    async delete(id) {
+        const stmt = this.db.prepare('DELETE FROM products WHERE id = ?');
+        stmt.run(id);
+    }
 }

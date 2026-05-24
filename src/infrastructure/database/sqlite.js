@@ -21,8 +21,10 @@ export function initDb(dbPath = 'database.db') {
             productId INTEGER NOT NULL,
             rating INTEGER NOT NULL,
             comment TEXT NOT NULL,
+            userEmail TEXT NOT NULL,
             createdAt TEXT NOT NULL,
-            FOREIGN KEY (productId) REFERENCES products (id) ON DELETE CASCADE
+            FOREIGN KEY (productId) REFERENCES products (id) ON DELETE CASCADE,
+            UNIQUE (productId, userEmail)
         );
     `);
 

@@ -6,13 +6,15 @@ export class ProductController {
         createProductUseCase,
         updateProductUseCase,
         createReviewUseCase,
-        getProductDetailsUseCase
+        getProductDetailsUseCase,
+        deleteProductUseCase  
     }) {
         this.listProductsUseCase = listProductsUseCase;
         this.createProductUseCase = createProductUseCase;
         this.updateProductUseCase = updateProductUseCase;
         this.createReviewUseCase = createReviewUseCase;
         this.getProductDetailsUseCase = getProductDetailsUseCase;
+        this.deleteProductUseCase = deleteProductUseCase;
     }
 
     listProducts = async (req, res, _next) => {
@@ -66,16 +68,22 @@ export class ProductController {
     createReview = async (req, res, _next) => {
         try {
             const { productId } = req.params;
-            const { rating, comment } = req.body;
+            const { rating, comment,userEmail } = req.body;
             const newReview = await this.createReviewUseCase.execute({
                 productId: Number(productId),
                 rating: rating !== undefined ? Number(rating) : undefined,
                 comment,
+                userEmail,
             });
             res.status(201).json(newReview);
         } catch (error) {
-            res.status(400).json({ error: error.message });
+
+            if (error.statusCode === 409){
+            res.status(409).json({ error: error.message });
+            return;
         }
+        res.status(400).json({ error: error.message });  
+    }
     };
 
     getProductDetails = async (req, res, _next) => {
@@ -93,4 +101,15 @@ export class ProductController {
             }
         }
     };
+
+
+    deleteProduct = async (req, res, next) => {   
+            try {
+                const productId = parseInt(req.params.productId);
+                await this.deleteProductUseCase.execute(productId);
+                res.status(204).send();
+            } catch (error) {
+                next(error);
+            }
+        };
 }
