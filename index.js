@@ -6,6 +6,7 @@ import { CreateProduct } from './src/application/use-cases/CreateProduct.js';
 import { UpdateProduct } from './src/application/use-cases/UpdateProduct.js';
 import { CreateReview } from './src/application/use-cases/CreateReview.js';
 import { GetProductDetails } from './src/application/use-cases/GetProductDetails.js';
+import { DeleteProduct } from './src/application/use-cases/DeleteProduct.js';  
 import { ProductController } from './src/adapters/controllers/ProductController.js';
 import { createRouter } from './src/infrastructure/web/routes.js';
 import { createExpressApp } from './src/infrastructure/web/express.js';
@@ -27,6 +28,7 @@ try {
     const updateProductUseCase = new UpdateProduct(productRepository);
     const createReviewUseCase = new CreateReview(reviewRepository, productRepository);
     const getProductDetailsUseCase = new GetProductDetails(productRepository, reviewRepository);
+    const deleteProductUseCase = new DeleteProduct(productRepository);  //
 
     // 4. Inicializar Adaptador Primario (Controlador) con Inyección de Dependencias
     const productController = new ProductController({
@@ -35,6 +37,7 @@ try {
         updateProductUseCase,
         createReviewUseCase,
         getProductDetailsUseCase,
+        deleteProductUseCase,  // 👈 agregad
     });
 
     // 5. Inicializar Capa de Infraestructura Web (Express y Rutas)

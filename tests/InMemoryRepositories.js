@@ -43,6 +43,10 @@ export class InMemoryProductRepository extends ProductRepository {
         this.products[index] = updated;
         return updated;
     }
+
+    async delete(id) {                                          
+        this.products = this.products.filter((p) => p.id !== id);
+    }
 }
 
 export class InMemoryReviewRepository extends ReviewRepository {
@@ -60,5 +64,11 @@ export class InMemoryReviewRepository extends ReviewRepository {
 
     async findByProductId(productId) {
         return this.reviews.filter((r) => r.productId === productId).sort((a, b) => b.id - a.id);
+    }
+
+     async findByProductAndEmail(productId, userEmail) {         // 👈 agregado para HU-05
+        return this.reviews.find(
+            (r) => r.productId === productId && r.userEmail === userEmail
+        ) || null;
     }
 }

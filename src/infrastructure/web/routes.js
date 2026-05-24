@@ -11,5 +11,9 @@ export function createRouter(productController) {
     router.put('/products/:id', productController.updateProduct);
     router.post('/products/:productId/reviews', productController.createReview);
 
+    router.delete('/products/:productId', (req, res, next) =>
+    productController.deleteProduct(req, res, next)
+    );
+
     return router;
 }
